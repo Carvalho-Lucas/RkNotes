@@ -1,3 +1,4 @@
+const { hash } = require("bcryptjs");
 const AppError = require("../utils/AppError");
 
 const sqliteConnection = require("../database/sqlite")
@@ -13,12 +14,46 @@ class UsersController {
       throw new AppError('Este e-mail já está em uso!');
     }
 
+    const hashedPassword = await hash(password, 8);
+    
     await database.run("INSERT INTO users (name, email, password) VALUES (?,?,?)"
-    , [name, email, password]
+    , [name, email, hashedPassword]
     );
 
     return response.status(201).json();
   }
+
+  async update(request, response){
+    const { name, email} = request.body;
+    const { id } = request.params;
+  
+    const database = await sqliteConnection();
+    const user = await database.get("SELECT * FROM users WHERE id = (?)", [id] ); //seleciona todos os campos da tabela usuario onde o id seja igual ao [id] 
+    
+    if (!user) {
+      throw new AppError('Usuário não encontrado!');
+    }
+  
+    const userWithUpdateEmail = await database.get("SELECT * FROM users WHERE email = (?)", [email] ); //selecione todos os campos da tabela usuario onde o email seja igual ao [email] | verificar se email já existe, e se pode ser trocado.
+  
+    if (userWithUpdateEmail && userWithUpdateEmail.id !== user.id){
+      throw new AppError('Este e-mail já foi cadastrado!');
+    }
+  
+    user.name = name;
+    user.email = email;
+ 
+    await database.run(`
+    UPDATE users SET
+    name = ?,
+    email = ?,
+    updated_at = ?
+    WHERE id = ?`,
+    [user.name, user.email, new Date(), id ]);
+  
+    return response.json();
+  
+   }
 }
 
 module.exports = UsersController;

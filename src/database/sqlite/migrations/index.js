@@ -1,14 +1,12 @@
-const sqliteConnection = require('../../sqlite');
-const createUsers = require('./createUsers');
+const sqliteConnection = require('../../sqlite')
+const createUsers = require('./createUsers')
 
-async function migrationRun(){
-  const schemas = [
-    createUsers
-  ].join(''); //pegar todas migration e usar valor vazio para quebrar
+async function migrationsRun() {
+  const schemas = [createUsers].join('')
 
   sqliteConnection()
-  .then(db => db.exec(schemas))
-  .catch(error => console.log(error));
+    .then(db => db.exec(schemas))
+    .catch(error => console.error(error))
 }
 
-module.exports = migrationRun;
+module.exports = migrationsRun

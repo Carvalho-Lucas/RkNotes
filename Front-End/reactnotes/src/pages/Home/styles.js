@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom'
+
 
   export const Container  = styled.div`
     width: 100%;
@@ -51,11 +53,11 @@ import styled from "styled-components";
       padding: 0 64px;
       overflow-y: auto; //utilizar rolagem caso encher tela
   `;
-  export const NewNote  = styled.button`
+  export const NewNote  = styled(Link)`
       grid-area: newnote;
 
-      border: 10px;
       background-color: ${({ theme }) => theme.COLORS.ORANGE};
+      color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
       
       display: flex;
       align-items: center;

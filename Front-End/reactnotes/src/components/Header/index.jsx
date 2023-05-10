@@ -5,7 +5,7 @@ export function Header(){
 
   return(
     <Container>
-      <Profile>
+      <Profile to="/profile">
         <img src="https://github.com/Carvalho-Lucas.png" alt="Foto do Usuário"/>
         <div className="message-Welcome">
           <span>Bem-Vindo</span>

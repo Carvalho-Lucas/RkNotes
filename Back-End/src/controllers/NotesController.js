@@ -1,5 +1,6 @@
 const knex = require("../database/knex");
 
+
 class NotesController{
   async create(request, response) {
     const { title, descriptions, tags, links } = request.body

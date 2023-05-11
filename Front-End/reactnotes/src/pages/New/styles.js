@@ -6,13 +6,14 @@ export const Container = styled.div`
 
   display: grid;
   grid-template-rows: 105px auto;
-  grid-template-areas: 
-  'header'
-  'content';
+  grid-template-areas:
+    'header'
+    'form';
 
   > main {
-    grid-template-areas: content;
+    grid-area: form;
     overflow-y: auto;
+    padding: 64px 0;
   }
 
   .tags {
@@ -20,21 +21,17 @@ export const Container = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
   }
-`;
+`
 
 export const Form = styled.form`
   max-width: 550px;
-  margin: 38px auto;
+  margin: 0 auto;
 
   > header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
-  }
+    align-items: center;
 
-  a {
-    font-size: 20px;
-    color: ${({ theme }) => theme.COLORS.ORANGE};
+    margin-bottom: 36px;
   }
-`;
+`

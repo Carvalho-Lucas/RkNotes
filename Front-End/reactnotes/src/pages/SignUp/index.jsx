@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Container, Form, Background } from './styles'
 import { Button } from '../../components/Button'
 import { Link, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+
 
 import { api } from '../../services/api';
 import { Input } from '../../components/Input'
@@ -17,18 +19,33 @@ export function SignUp() {
 
   function handleSignUp(){
     if(!name || !email || !password){
-      return alert("Preencha todos os campos!");
+      //return alert("Preencha todos os campos!");
+      return Swal.fire({
+        icon: 'info',
+        title: '🙄',
+        text: 'Preencha todos os campos!'
+      })
     }
     api.post('/users', { name, email, password })
     .then(() =>{
-      alert("Usuário cadastrado com sucesso!");
+      //alert("Usuário cadastrado com sucesso!");
+      return Swal.fire({
+        icon: 'info',
+        title: '😆',
+        text: 'Usuário cadastrado com sucesso!'
+      }),
       navigate('/');
     })
     .catch(error => {
       if (error.response){
         alert(error.response.data.message);
       }else {
-        alert("Não foi possível cadastrar!");
+        //alert("Não foi possível cadastrar!");
+        Swal.fire({
+          icon: 'info',
+          title: '😣',
+          text: 'Não foi possível cadastrar!'
+        })
       }
     })
   }

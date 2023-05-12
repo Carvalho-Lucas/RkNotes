@@ -1,5 +1,7 @@
 import  {createContext, useContext, useState, useEffect} from 'react';
 import { api } from '../services/api'
+import Swal from 'sweetalert2'
+
 const AuthContext = createContext({})
 
 function AuthProvider({ children }) {
@@ -20,7 +22,12 @@ function AuthProvider({ children }) {
       if (error.response) {
         alert(error.response.data.message)
       }else{
-        alert('Não foi possível entrar.')
+        //alert('Não foi possível entrar.')
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Não foi possível entrar.'
+        })
       }
     }
   }
@@ -47,13 +54,22 @@ function AuthProvider({ children }) {
       localStorage.setItem('@rocketnotes:user', JSON.stringify(user));
 
       setData({ user, token: data.token })
-      alert("Perfil Atualizado!")
+      return Swal.fire({
+        icon: 'success',
+        title: 'Perfil Atualizado ✔',
+        text: 'Nome/E-mail Alterado com sucesso!'
+      })
 
     } catch(error){
       if (error.response) {
         alert(error.response.data.message)
       } else{
-        alert('Não foi possível entrar.')
+        //alert('Não foi possível entrar.')
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Não foi possível entrar.'
+        })
       }
     }
   }
